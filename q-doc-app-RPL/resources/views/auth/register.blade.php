@@ -103,7 +103,7 @@
                                 Submit
                             </button>
                             <p class="text-center">
-                                Sudah punya akun? <a href="#">Login</a>
+                                Sudah punya akun? <a href="{{ route('login') }}">Login</a>
                             </p>
                         </div>
                     </div>
