@@ -53,4 +53,45 @@ class UserController extends Controller
             ]);
         }
     }
+       /**
+     * Action untuk menangani proses login
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function authenticate(Request $request)
+    {
+
+        // Validasi data login
+        $credentials = $request->validate([
+            'phone_number' => ['required', 'phone:ID'],
+            'password' => ['required'],
+        ]);
+
+        // Format no. hp agar semua no. hp sama formatnya dalam database
+        $credentials['phone_number'] = PhoneNumber::make($credentials['phone_number'], 'ID')->formatInternational();
+
+        // Mulai proses autentikasi
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Redirect ke halaman yang hendak diakses sebelum login atau ke route /
+            return redirect()->intended();
+        }
+
+        // Jika error kembali ke halaman login dan flash pesan error
+        return back()->withErrors([
+            'loginError' => 'Nomor HP atau password salah.'
+        ]);
+    }
+
+    /**
+     * Action untuk menampilkan halaman login
+     *
+     * @return \Illuminate\View\View
+     */
+    public function login()
+    {
+        return view('auth.login');
+    }
 }

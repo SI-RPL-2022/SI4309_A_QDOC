@@ -22,3 +22,7 @@ Route::get('/', function () {
 // Route: /register
 Route::get('/register', 'UserController@register')->name('register')->middleware('guest');
 Route::post('/register', 'UserController@newUser')->name('new_user')->middleware('guest');
+
+// Route: /login
+Route::get('/login', 'UserController@login')->name('login')->middleware('guest');
+Route::post('/login', 'UserController@authenticate')->name('auth')->middleware('guest');
