@@ -28,5 +28,15 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+                // Otorisasi untuk halaman pasien
+                Gate::define('patient-page', function (User $user) {
+                    return !$user->is_doctor;
+                });
+        
+                // Otorisasi untuk halaman  dokter
+                Gate::define('doctor-page', function (User $user) {
+                    return $user->is_doctor;
+                });
     }
+
 }
