@@ -47,3 +47,20 @@
       opacity: 1;
   }
   
+  .bg-photo {
+    background-image: url('/home_illust.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-origin: border-box;
+}
+
+@media only screen and (max-width: 768px) {
+    .hero {
+        height: 30vh !important;
+    }
+}
+
+.hero {
+    height: 65vh;
+    position: relative;
+}
