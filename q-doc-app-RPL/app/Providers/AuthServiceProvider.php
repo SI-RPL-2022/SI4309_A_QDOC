@@ -42,6 +42,15 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update-profile', function (User $user, $id) {
             return $user->id === $id;
         });
+        // Otorisasi untuk izin mengedit jadwal
+        Gate::define('update-schedule', function (User $user, Schedule $schedule) {
+            return $user->id === $schedule->user_id;
+        });
+
+        // Otorisasi untuk izin menghapus jadwal
+        Gate::define('delete-schedule', function (User $user, Schedule $schedule) {
+            return $user->id === $schedule->user_id;
+        });
     }
 
 }

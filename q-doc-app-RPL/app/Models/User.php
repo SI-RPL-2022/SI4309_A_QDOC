@@ -59,4 +59,13 @@ class User extends Authenticatable
     {
         return $this->attributes['password'] = Hash::make($value);
     }
+    /**
+     * Get all of the schedules for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }
