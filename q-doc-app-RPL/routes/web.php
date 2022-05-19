@@ -56,6 +56,9 @@ Route::prefix('pasien')->name('pasien.')->middleware('auth')->group(function () 
         // Route update profile: /pasien/profile/{id}
         Route::put('/{id}', 'PatientController@updateProfile')->name('update');
     });
+    // Route halaman booking: /pasien/booking
+    Route::get('/booking', 'PatientController@showBooking')->name('booking');
+    Route::post('/booking', 'PatientController@newBooking')->name('booking.new');
 });
 
 // Route grup khusus dokter

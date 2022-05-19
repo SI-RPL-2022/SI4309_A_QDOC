@@ -82,7 +82,7 @@
                 </tr>
                 @foreach ($schedules as $schedule)
                     <x-jadwal-item :scheduleId="$schedule->id" :scheduleStatus="$schedule->is_active" :date="$schedule->date" :shiftStart="$schedule->shift_start"
-                        :shiftEnd="$schedule->shift_end" :consultations="0" />
+                        :shiftEnd="$schedule->shift_end" :consultations="$schedule->consultations_count" />
                 @endforeach
 
             </table>

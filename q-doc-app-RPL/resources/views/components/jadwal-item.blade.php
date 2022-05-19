@@ -18,7 +18,7 @@ $scheduleDate = new Carbon\Carbon($date, 'Asia/Jakarta');
         </button>
 
         <button type="button" class="btn btn-danger btn-sm px-2" data-bs-toggle="modal" data-bs-target="#modal-delete"
-            data-id-jadwal="{{ $scheduleId }}" data-allowed="1">
+            data-id-jadwal="{{ $scheduleId }}" data-allowed="{{ $consultations === 0 ? true : false }}">
             Hapus
         </button>
     </td>
