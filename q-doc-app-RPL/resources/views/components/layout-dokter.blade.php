@@ -28,7 +28,7 @@
 
             <div class="navbar-collapse collapse" id="navbarNav" style="">
                 <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
-                    <x-nav-item :href="route('home')">Jadwal</x-nav-item>
+                    <x-nav-item :href="route('dokter.jadwal.show')">Jadwal</x-nav-item>
                     <x-nav-item :href="route('home')">Konsultasi</x-nav-item>
                     <x-nav-item :href="route('home')">Histori</x-nav-item>
                 </ul>

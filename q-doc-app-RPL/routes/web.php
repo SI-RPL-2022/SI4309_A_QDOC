@@ -63,4 +63,25 @@ Route::prefix('dokter')->name('dokter.')->middleware('auth')->group(function () 
 
     // Route halaman beranda: /dokter
     Route::get('/', 'DoctorController@index')->name('home');
+    // Route group halaman jadwal
+    Route::prefix('jadwal')->name('jadwal.')->group(function () {
+        // Route tabel jadwal: /dokter/jadwal/
+        Route::get('/', 'DoctorController@showSchedules')->name('show');
+
+        // Route tambah jadwal: /dokter/jadwal/
+        Route::post('/', 'DoctorController@newSchedule')->name('new');
+
+        // Route tambah jadwal mingguan (bulk): /dokter/jadwal/new/weekly
+        Route::get('/new/weekly', 'DoctorController@addWeeklySchedule')->name('new.weekly');
+
+        // Route menghapus jadwal lama: /dokter/jadwal/delete_past
+        Route::get('/delete_past', 'DoctorController@deletePastSchedules')->name('delete.past');
+
+        // Route menghapus jadwal: /dokter/jadwal/{id}
+        Route::delete('/{schedule}', 'DoctorController@deleteSchedule')->name('delete');
+
+        // Route mengganti status jadwal: /dokter/jadwal/{id}/toggle_status
+        Route::put('/{schedule}/toggle_status', 'DoctorController@toggleStatus')->name('status.toggle');
+    });
+
 });
