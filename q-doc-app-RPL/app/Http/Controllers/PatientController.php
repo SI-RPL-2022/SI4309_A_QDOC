@@ -103,4 +103,130 @@ class PatientController extends Controller
             );
         }
     }
+        /**
+     * Action untuk menampilkan halaman booking
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showBooking(Request $request)
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('patient-page');
+
+        // Ambil tanggal dan waktu sekarang
+        $curDate = now('Asia/Jakarta')->toDateString();
+        $curTime = now('Asia/Jakarta')->toTimeString();
+
+        // Ambil konsultasi pasien yang belum selesai jika ada
+        $isNoConsultation = Consultation::with(['doctor', 'schedule'])
+            ->where('patient_id', '=', $request->user()->id)
+            ->whereHas('schedule', function (Builder $query) use ($curDate, $curTime) {
+                $query->where('date', '>', $curDate);
+                $query->orWhere(function ($query) use ($curDate, $curTime) {
+                    $query->where('date', '=', $curDate);
+                    $query->where('shift_end', '>', $curTime);
+                });
+            })
+            ->where('is_done', '=', false)
+            ->first();
+
+        if (is_null($isNoConsultation)) { // Cek apakah terdapat data konsultasi
+
+            // Jika tidak terdapat data konsultasi ambil data jadwal dan tampilkan halaman booking
+            $schedules =  Schedule::where('is_active', '=', true)
+                ->where(function ($query) use ($curDate, $curTime) {
+                    $query->where('date', '>', $curDate);
+                    $query->orWhere(function ($query) use ($curDate, $curTime) {
+                        $query->where('date', '=', $curDate);
+                        $query->where('shift_end', '>', $curTime);
+                    });
+                })->get();
+
+            return view('pasien.booking', [
+                'schedules' => $schedules,
+            ]);
+        } else {
+            // Jika terdapat data konsultasi maka tampilkan data tersebut
+
+            // Ambil data konsultasi yang sedang ditangani sekarang
+            if ($isNoConsultation->date === $curDate && ($isNoConsultation->schedule->shift_start <= $curTime && $isNoConsultation->schedule->shift_end >= $curTime)) {
+                $currentConsultation = Consultation::select('queue')
+                    ->where('schedule_id', '=', $isNoConsultation->schedule_id)
+                    ->where('is_done', '=', false)
+                    ->orderBy('queue')->first();
+            }
+
+            return view('pasien.booking-done', [
+                'consultation' => $isNoConsultation,
+                'currentQueue' => $currentConsultation->queue ?? 'Jadwal konsultasi anda belum dimulai.',
+            ]);
+        }
+    }
+
+    /**
+     * Action untuk menangani proses booking
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function newBooking(Request $request)
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('patient-page');
+        Gate::authorize('no-consultation');
+
+        // Validasi data yang diberikan
+        $consultationData = $request->validate([
+            'schedule' => [
+                'required',
+                'alpha_num',
+                'exists:schedules,id',
+                Rule::notIn('Pilih hari/tanggal konsultasi'),
+            ]
+        ]);
+
+        // Ambil data jadwal yang dipilih
+        $schedule = Schedule::with('consultations')->find($consultationData['schedule']);
+
+        // Jika jadwal tidak aktif maka pasien tidak bisa
+        // booking jadwal tersebut
+        if (!$schedule->is_active) {
+            return back()->withErrors([
+                'bookFail' => 'Jadwal yang anda booking tidak aktif.',
+            ]);
+        }
+
+        // Ambil nomor antrian terakhir
+        $lastQueue = $schedule->consultations
+            ->sortByDesc('queue')
+            ->values()->all();
+
+        if (count($lastQueue) === 0) { // Jika tidak ada konsultasi maka set nomor antrian jadi 1
+            $lastQueue = 1;
+        } else {
+            $lastQueue = $lastQueue[0]->queue + 1; // Jika ada maka nomor antrian adalah atrian terakhir + 1
+        }
+
+        // Buat instance model konsultasi baru
+        $consultation = new Consultation();
+
+        // Tambahkan data konsultasi
+        $consultation->patient_id = $request->user()->id;
+        $consultation->doctor_id = 1;
+        $consultation->schedule_id = $consultationData['schedule'];
+        $consultation->date = $schedule->date;
+        $consultation->queue = $lastQueue;
+
+        // Simpan konsultasi
+        if ($consultation->save()) {
+            $request->session()->flash('success', true);
+
+            return redirect(route('pasien.booking'));
+        } else {
+            return back()->withErrors([
+                'bookFail' => 'Terjadi kesalahan ketika melakukan booking.',
+            ]);
+        }
+    }
 }

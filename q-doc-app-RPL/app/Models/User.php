@@ -68,4 +68,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Schedule::class);
     }
+
+ /**
+     * Get all of the consultations for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consultations(): HasMany
+    {
+        return $this->hasMany(Consultation::class);
+    }
+
 }

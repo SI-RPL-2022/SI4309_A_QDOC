@@ -9,7 +9,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Schedule extends Model
 {
     use HasFactory;
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
 
+        // Hapus data konsultasi yang tidak dilakukan
+        self::deleting(function ($schedule) {
+            $consultations = $schedule->consultations()->where('is_done', '=', false);
+
+            $consultations->delete();
+        });
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -30,5 +45,14 @@ class Schedule extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+      /**
+     * Get all of the consultations for the Schedule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consultations(): HasMany
+    {
+        return $this->hasMany(Consultation::class);
     }
 }

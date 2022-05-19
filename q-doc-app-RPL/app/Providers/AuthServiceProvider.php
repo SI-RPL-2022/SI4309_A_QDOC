@@ -51,6 +51,23 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-schedule', function (User $user, Schedule $schedule) {
             return $user->id === $schedule->user_id;
         });
+                // Otorisasi berdasarkan keberadaan data konsultasi
+                Gate::define('no-consultation', function (User $user) {
+                    $curDate = now('Asia/Jakarta')->toDateString();
+                    $curTime = now('Asia/Jakarta')->toTimeString();
+        
+                    $notDoneConsult = Consultation::where('patient_id', '=', $user->id)
+                        ->whereHas('schedule', function (Builder $query) use ($curDate, $curTime) {
+                            $query->where('date', '>', $curDate);
+                            $query->orWhere(function ($query) use ($curDate, $curTime) {
+                                $query->where('date', '=', $curDate);
+                                $query->where('shift_end', '>', $curTime);
+                            });
+                        })
+                        ->where('is_done', '=', false)->first();
+        
+                    return is_null($notDoneConsult);
+                });
     }
 
 }

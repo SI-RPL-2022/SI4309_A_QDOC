@@ -49,6 +49,9 @@ class DoctorController extends Controller
 
         $schedules =  $request->user()
             ->schedules()
+            ->withCount(['consultations' => function (Builder $query) {
+                $query->where('is_done', '=', false);
+            }])
             ->orderBy('date')
             ->orderBy('shift_start')
             ->where('date', '>', $curDate)
@@ -387,7 +390,11 @@ class DoctorController extends Controller
         // Definisikan aturan otorisasi
         Gate::authorize('doctor-page');
         Gate::authorize('delete-schedule', $schedule);
+        // Cek apakah jadwal sudah memiliki konsultasi
 
+        $incompleteConsultationsCount = $schedule->consultations()
+            ->where('is_done', '=', false)
+            ->count();
         // Jika jadwal tidak memiliki konsultasi yang belum selesai maka
         // lanjutkan proses penghapusan jadwal
         if ($schedule->delete()) {
