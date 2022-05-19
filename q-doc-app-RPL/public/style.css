@@ -27,25 +27,30 @@
       background-size: auto 100%;
   }
   
-  .form-control::placeholder {
+  .ph-light::placeholder {
       color: var(--bs-light) !important;
       opacity: 1;
   }
   
-  .form-control:-ms-input-placeholder {
+  .ph-light:-ms-input-placeholder {
       color: var(--bs-light) !important;
       opacity: 1;
   }
   
-  .form-control::-moz-placeholder {
+  .ph-light::-moz-placeholder {
       color: var(--bs-light) !important;
       opacity: 1;
   }
   
-  .form-control::-ms-input-placeholder {
+  .ph-light::-ms-input-placeholder {
       color: var(--bs-light) !important;
       opacity: 1;
   }
+
+  .ph-light:focus::placeholder {
+    color: lightgray !important;
+    opacity: 1;
+}
   
   .bg-photo {
     background-image: url('/home_illust.png');

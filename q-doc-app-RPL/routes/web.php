@@ -45,6 +45,17 @@ Route::prefix('pasien')->name('pasien.')->middleware('auth')->group(function () 
 
     // Route halaman beranda: /pasien
     Route::get('/', 'PatientController@index')->name('home');
+    // Route group profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        // Route menampilkan profile: /pasien/profile
+        Route::get('/', 'PatientController@showProfile')->name('show');
+
+        // Route edit profile: /pasien/profile/edit
+        Route::get('/edit', 'PatientController@editProfile')->name('edit');
+
+        // Route update profile: /pasien/profile/{id}
+        Route::put('/{id}', 'PatientController@updateProfile')->name('update');
+    });
 });
 
 // Route grup khusus dokter

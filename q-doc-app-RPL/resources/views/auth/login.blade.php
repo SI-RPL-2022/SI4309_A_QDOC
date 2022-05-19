@@ -46,7 +46,7 @@
 
                             <div class="mb-3">
                                 <label for="no-hp" class="form-label fs-5">No. HP</label>
-                                <input type="tel" name="phone_number" id="no-hp" class="form-control bg-gray"
+                                <input type="tel" name="phone_number" id="no-hp" class="form-control ph-light bg-gray"
                                     style="--bg-opacity: 0.5" placeholder="Nomor HP anda"
                                     value="{{ old('phone_number') }}" aria-required="true" required />
                                 <div class="invalid-feedback">Nomor HP wajib diisi!</div>
@@ -60,7 +60,7 @@
 
                             <div class="mb-4">
                                 <label for="password" class="form-label fs-5">Password</label>
-                                <input type="password" name="password" id="password" class="form-control bg-gray"
+                                <input type="password" name="password" id="password" class="form-control ph-light bg-gray"
                                     style="--bg-opacity: 0.5" placeholder="Password anda"
                                     value="{{ old('password') }}" aria-required="true" required />
                                 <div class="invalid-feedback">Password wajib diisi!</div>

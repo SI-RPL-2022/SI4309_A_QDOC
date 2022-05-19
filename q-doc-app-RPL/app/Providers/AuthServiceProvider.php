@@ -37,6 +37,11 @@ class AuthServiceProvider extends ServiceProvider
                 Gate::define('doctor-page', function (User $user) {
                     return $user->is_doctor;
                 });
+                
+                // Otorisasi untuk izin mengedit profil
+        Gate::define('update-profile', function (User $user, $id) {
+            return $user->id === $id;
+        });
     }
 
 }
