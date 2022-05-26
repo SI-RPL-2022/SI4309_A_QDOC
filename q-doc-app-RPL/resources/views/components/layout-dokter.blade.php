@@ -39,8 +39,9 @@
                     <li class="nav-item col-6 col-md-auto text-md-end">
                         <p class="nav-link m-0">
                             {{ request()->user()->name }}
-                            <button class="btn btn-sm btn-secondary ms-2"><a href="#" class="nav-link p-0 m-0">Log
-                                    out</a></button>
+                            <button class="btn btn-sm btn-secondary ms-2"><a href="{{ route('logout') }}"
+                                class="nav-link p-0 m-0">Log
+                                out</a></button>
                         </p>
                     </li>
                 </ul>

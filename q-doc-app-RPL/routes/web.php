@@ -40,6 +40,9 @@ Route::post('/register', 'UserController@newUser')->name('new_user')->middleware
 Route::get('/login', 'UserController@login')->name('login')->middleware('guest');
 Route::post('/login', 'UserController@authenticate')->name('auth')->middleware('guest');
 
+// Route: /logout
+Route::get('/logout', 'UserController@logout')->name('logout');
+
 // Route group khusus pasien
 Route::prefix('pasien')->name('pasien.')->middleware('auth')->group(function () {
 

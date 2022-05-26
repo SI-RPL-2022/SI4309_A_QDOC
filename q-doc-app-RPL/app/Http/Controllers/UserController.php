@@ -94,4 +94,21 @@ class UserController extends Controller
     {
         return view('auth.login');
     }
+
+    /**
+     * Action untuk menangani proses logout
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }
