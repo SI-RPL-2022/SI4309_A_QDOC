@@ -449,4 +449,37 @@ class DoctorController extends Controller
 
         return redirect(route('dokter.jadwal.show'));
     }
+    /**
+     * Action untuk menampilkan tabel konsultasi
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showConsultations()
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('doctor-page');
+
+        // Dapatkan tanggal dan jam sekarang
+        $curDate = now('Asia/Jakarta')->toDateString();
+        $curTime = now('Asia/Jakarta')->toTimeString();
+
+        $consultations = Consultation::with('patient', 'schedule')
+            ->whereHas('schedule', function (Builder $query) use ($curDate, $curTime) {
+                $query->where('date', '>', $curDate);
+                $query->orWhere(function ($query) use ($curDate, $curTime) {
+                    $query->where('date', '=', $curDate);
+                    $query->where('shift_end', '>', $curTime);
+                });
+            })
+            ->where('is_done', '=', false)
+            ->get()
+            ->sortBy([
+                fn ($a, $b) => $a->date <=> $b->date, // sort berdasarkan tanggal konsultasi
+                fn ($a, $b) => $a->schedule->shift_start <=> $b->schedule->shift_start // sort berdasarkan shift konsultasi
+            ]);
+
+        return view('dokter.konsultasi', [
+            'consultations' => $consultations
+        ]);
+    }
 }

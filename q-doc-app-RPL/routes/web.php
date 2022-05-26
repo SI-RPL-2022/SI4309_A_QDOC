@@ -86,5 +86,9 @@ Route::prefix('dokter')->name('dokter.')->middleware('auth')->group(function () 
         // Route mengganti status jadwal: /dokter/jadwal/{id}/toggle_status
         Route::put('/{schedule}/toggle_status', 'DoctorController@toggleStatus')->name('status.toggle');
     });
-
+    // Route group konsultasi
+    Route::prefix('konsultasi')->name('konsultasi.')->group(function () {
+        // Route tabel konsultasi: /dokter/konsultasi
+        Route::get('/', 'DoctorController@showConsultations')->name('show');
+    });
 });
