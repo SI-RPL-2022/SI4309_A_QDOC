@@ -62,6 +62,8 @@ Route::prefix('pasien')->name('pasien.')->middleware('auth')->group(function () 
     // Route halaman booking: /pasien/booking
     Route::get('/booking', 'PatientController@showBooking')->name('booking');
     Route::post('/booking', 'PatientController@newBooking')->name('booking.new');
+    // Route halaman resep: /pasien/resep
+    Route::get('/resep', 'PatientController@showReceipts')->name('resep');
 });
 
 // Route grup khusus dokter
@@ -93,5 +95,8 @@ Route::prefix('dokter')->name('dokter.')->middleware('auth')->group(function () 
     Route::prefix('konsultasi')->name('konsultasi.')->group(function () {
         // Route tabel konsultasi: /dokter/konsultasi
         Route::get('/', 'DoctorController@showConsultations')->name('show');
+
+        // Route tambah resep: /dokter/konsultasi/{id}
+        Route::put('/{consultation}', 'DoctorController@addReceipt')->name('receipt.add');
     });
 });

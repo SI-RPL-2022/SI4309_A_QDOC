@@ -68,6 +68,11 @@ class AuthServiceProvider extends ServiceProvider
         
                     return is_null($notDoneConsult);
                 });
+
+                // Otorisasi untuk izin menambah resep dokter
+                Gate::define('add-receipt', function (User $user, Consultation $consultation) {
+                    return $user->id === $consultation->doctor->id;
+        });
     }
 
 }

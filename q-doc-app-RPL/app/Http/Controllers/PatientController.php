@@ -229,4 +229,22 @@ class PatientController extends Controller
             ]);
         }
     }
+    /**
+     * Action untuk menampilkan halaman resep
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showReceipts(Request $request)
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('patient-page');
+
+        // Ambil semua data konsultasi yang sudah selesai
+        $consultations = Consultation::where('patient_id', '=', $request->user()->id)->where('is_done', '=', true)->latest()->get();
+
+        return view('pasien.resep', [
+            'consultations' => $consultations,
+        ]);
+    }
 }

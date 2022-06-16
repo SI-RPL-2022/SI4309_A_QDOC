@@ -482,4 +482,45 @@ class DoctorController extends Controller
             'consultations' => $consultations
         ]);
     }
+    /**
+     * Action untuk menangani proses tambah jadwal
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Consultation $consultation
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function addReceipt(Request $request, Consultation $consultation)
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('doctor-page');
+        Gate::authorize('add-receipt', $consultation);
+
+        // Validasi data yang diberikan
+        $receipt = $request->validate([
+            'receipt' => ['required', 'string'],
+        ]);
+
+        // Update data konsultasi
+        $consultation->receipt = $receipt['receipt'];
+        $consultation->is_done = true;
+
+        // Simpan konsultasi
+        if ($consultation->save()) {
+            $request->session()->flash('success', true);
+
+            return response(
+                json_encode([
+                    'success' => true,
+                ]),
+                200
+            );
+        } else {
+            return response(
+                json_encode([
+                    'success' => false,
+                ]),
+                500
+            );
+        }
+    }
 }
