@@ -30,7 +30,7 @@
                 <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
                     <x-nav-item :href="route('dokter.jadwal.show')">Jadwal</x-nav-item>
                     <x-nav-item :href="route('dokter.konsultasi.show')">Konsultasi</x-nav-item>
-                    <x-nav-item :href="route('home')">Histori</x-nav-item>
+                    <x-nav-item :href="route('dokter.histori')">Histori</x-nav-item>
                 </ul>
 
                 <hr class="d-md-none text-white-50">

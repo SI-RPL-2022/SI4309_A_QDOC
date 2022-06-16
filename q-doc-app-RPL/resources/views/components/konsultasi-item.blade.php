@@ -3,7 +3,7 @@
 $scheduleDate = new Carbon\Carbon($date, 'Asia/Jakarta');
 ?>
 <tr class="bg-brand" style="--bg-opacity: 0.3">
-    <td>{{ $patient->name }}</td>
+    <td><a href="{{ route('dokter.profile.pasien', ['user' => $patient->id]) }}">{{ $patient->name }}</a></td>
     <td>{{ $scheduleDate->locale('id')->dayName }}</td>
     <td>{{ $scheduleDate->day . ' ' . $scheduleDate->locale('id')->monthName . ' ' . $scheduleDate->year . ', ' . $shiftStart . ' - ' . $shiftEnd }}
     </td>
