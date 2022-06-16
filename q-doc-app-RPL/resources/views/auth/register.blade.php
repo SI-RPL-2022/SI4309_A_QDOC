@@ -40,21 +40,21 @@
                     <div class="row px-md-5">
                         <div class="col-12 mb-3">
                             <label for="nama" class="form-label fs-5">Nama</label>
-                            <input type="text" name="name" id="nama" class="form-control" placeholder="Nama anda"
+                            <input type="text" name="name" value="{{ old('name') }}" id="nama" class="form-control" placeholder="Nama anda"
                                 aria-required="true" required />
                             <div class="invalid-feedback">Nama wajib diisi!</div>
                         </div>
 
                         <div class="col-12 col-md-6 mb-3">
                             <label for="tempat-lahir" class="form-label fs-5">Tempat Lahir</label>
-                            <input type="text" name="birth_place" id="tempat-lahir" class="form-control"
+                            <input type="text" name="birth_place" value="{{ old('birth_place') }}" id="tempat-lahir" class="form-control"
                                 placeholder="Tempat lahir anda" aria-required="true" required />
                             <div class="invalid-feedback">Tempat lahir wajib diisi!</div>
                         </div>
 
                         <div class="col-12 col-md-6 mb-3">
                             <label for="tanggal-lahir" class="form-label fs-5">Tanggal Lahir</label>
-                            <input type="date" name="birth_date" id="tanggal-lahir" class="form-control"
+                            <input type="date" name="birth_date" value="{{ old('birth_date') }}" id="tanggal-lahir" class="form-control"
                                 aria-required="true" required />
                             <div class="invalid-feedback">Tanggal lahir wajib diisi!</div>
                         </div>
@@ -76,21 +76,21 @@
 
                         <div class="col-12 mb-3">
                             <label for="no-hp" class="form-label fs-5">No. HP</label>
-                            <input type="tel" name="phone_number" id="no-hp" class="form-control"
+                            <input type="tel" name="phone_number" value="{{ old('phone_number') }}" id="no-hp" class="form-control"
                                 placeholder="Nomor HP anda" aria-required="true" required />
                             <div class="invalid-feedback">No. HP wajib diisi!</div>
                         </div>
 
                         <div class="col-12 mb-3">
                             <label for="password" class="form-label fs-5">Password</label>
-                            <input type="password" name="password" id="password" class="form-control"
+                            <input type="password" name="password" value="{{ old('password') }}" id="password" class="form-control"
                                 placeholder="Password anda" aria-required="true" required />
                             <div class="invalid-feedback">Password wajib diisi!</div>
                         </div>
 
                         <div class="col-12 mb-3">
                             <label for="konfirmasi-password" class="form-label fs-5">Konfirmasi Password</label>
-                            <input type="password" name="password_confirmation" id="konfirmasi-password"
+                            <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" id="konfirmasi-password"
                                 class="form-control" placeholder="Konfirmasi password anda" aria-required="true"
                                 required />
                             <div class="invalid-feedback invalid-password-confirmation"></div>

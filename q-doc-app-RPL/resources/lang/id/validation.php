@@ -164,7 +164,10 @@ return [
             'alpha_num' => 'Jadwal yang anda pilih tidak valid',
             'not_in' => 'Jadwal yang anda pilih tidak valid',
             'exists' => 'Jadwal yang anda pilih tidak tersedia.',
-        ]
+        ],
+        'phone_number' => [
+            'unique' => 'Nomor HP sudah terpakai',
+        ],
     ],
 
     /*

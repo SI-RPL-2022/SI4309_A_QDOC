@@ -6,7 +6,7 @@
             <h3 class="text-center">Detail Konsultasi</h3>
 
             <div class="px-5">
-                <x-profile-field :label="'ID'" :content="$consultation->id" />
+                
                 <x-profile-field :label="'Nama Pasien'" :content="$consultation->patient->name" />
 
                 @php

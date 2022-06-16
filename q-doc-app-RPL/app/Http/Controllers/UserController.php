@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -38,6 +39,15 @@ class UserController extends Controller
         ]);
 
         $userData['phone_number'] = PhoneNumber::make($userData['phone_number'], 'ID')->formatInternational();
+        
+        $newValidator = Validator::make($userData, [
+            'phone_number' => ['unique:users,phone_number']
+        ]);
+        if ($newValidator->fails()) {
+            return back()
+                ->withErrors($newValidator)
+                ->withInput();
+        }
 
         $newUser = new User($userData);
 
