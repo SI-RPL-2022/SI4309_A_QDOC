@@ -30,7 +30,7 @@
                 <ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
                     <x-nav-item :href="route('pasien.profile.show')">Profile</x-nav-item>
                     <x-nav-item :href="route('pasien.booking')">Booking</x-nav-item>
-                    <x-nav-item :href="route('home')">Resep</x-nav-item>
+                    <x-nav-item :href="route('pasien.resep')">Resep</x-nav-item>
                 </ul>
 
                 <hr class="d-md-none text-white-50">
