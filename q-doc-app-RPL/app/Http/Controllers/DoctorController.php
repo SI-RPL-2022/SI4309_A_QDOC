@@ -523,4 +523,56 @@ class DoctorController extends Controller
             );
         }
     }
+    /**
+     * Action untuk menampilkan tabel histori konsultasi
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showConsultationHistories()
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('doctor-page');
+
+        // Dapatkan data konsultasi yang sudah selesai
+        $consultations = Consultation::with('patient')
+            ->where('is_done', '=', true)
+            ->orderBy('date', 'desc')
+            ->paginate(10);
+
+        return view('dokter.histori', [
+            'consultations' => $consultations,
+        ]);
+    }
+
+    /**
+     * Action untuk menampilkan detail konsultasi
+     *
+     * @param  \App\Models\Consultation $consultation
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showConsultationDetails(Consultation $consultation)
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('doctor-page');
+
+        return view('dokter.detail-konsultasi', [
+            'consultation' => $consultation,
+        ]);
+    }
+
+    /**
+     * Action untuk menampilan profil pasien
+     *
+     * @param  \App\Models\User $user
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showPatientProfile(User $user)
+    {
+        // Definisikan aturan otorisasi
+        Gate::authorize('doctor-page');
+
+        return view('dokter.pasien', [
+            'user' => $user
+        ]);
+    }
 }

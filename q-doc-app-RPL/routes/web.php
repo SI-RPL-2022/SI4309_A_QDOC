@@ -98,5 +98,14 @@ Route::prefix('dokter')->name('dokter.')->middleware('auth')->group(function () 
 
         // Route tambah resep: /dokter/konsultasi/{id}
         Route::put('/{consultation}', 'DoctorController@addReceipt')->name('receipt.add');
+
+        // Route detail konsultasi: /dokter/konsultasi/{id}
+        Route::get('/{consultation}', 'DoctorController@showConsultationDetails')->name('detail');
+        
     });
+    // Route tabel histori konsultasi: /dokter/histori
+    Route::get('/histori', 'DoctorController@showConsultationHistories')->name('histori');
+
+    // Route halaman profile pasien untuk dokter: /dokter/pasien/{id}
+    Route::get('/pasien/{user}', 'DoctorController@showPatientProfile')->name('profile.pasien');
 });
